@@ -8,6 +8,7 @@
 
 #import "CardGameViewController.h"
 #import "CardMatchingGame.h"
+#import "PlayingCardDeck.h"
 
 @interface CardGameViewController ()
 /*
@@ -18,6 +19,7 @@
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
 @end
 
 @implementation CardGameViewController
@@ -25,13 +27,24 @@
 - (CardMatchingGame *)game{
 	if (!_game) {
 		_game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
+		[self changeGameMode:self.gameModeSegmentedControl];
 	}
 	return _game;
 }
 
 
 - (Deck *)createDeck {
-	return nil;
+	return [[PlayingCardDeck alloc] init];
+}
+
+
+- (IBAction)changeGameMode:(UISegmentedControl *)sender {
+	if (self.gameModeSegmentedControl.selectedSegmentIndex == 0) {
+		self.game.numberOfCardToMatch = 2;
+	} else {
+		self.game.numberOfCardToMatch = 3;
+	}
+	
 }
 
 
@@ -71,6 +84,10 @@
 	}
 	 */
 }
+- (IBAction)touchNewGameButton:(UIButton *)sender {
+	self.game = nil;
+	[self updateUI];
+}
 
 - (void)updateUI {
 	for (UIButton *cardButton in self.cardButtons) {
@@ -81,6 +98,7 @@
 		cardButton.enabled = !card.isMatched;
 	}
 	self.scoreLabel.text = [NSString stringWithFormat:@"Score : %ld", (long)self.game.score];
+	self.gameModeSegmentedControl.enabled = self.game.gameStarted ? NO : YES;
 }
 
 - (NSString *)titleForCard:(Card *)card {

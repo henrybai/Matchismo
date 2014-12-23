@@ -19,6 +19,8 @@
 //other class should not be able to set the score.. Just read the score
 @property (nonatomic, readonly) NSInteger score;
 
+@property (nonatomic, readonly) BOOL gameStarted;
+@property (nonatomic) NSUInteger numberOfCardToMatch;
 
 
 @end

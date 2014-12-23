@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--Playing Card Game View Controller-->
+        <!--Card Game View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="PlayingCardGameViewController" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="CardGameViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -193,6 +193,38 @@
                                     <rect key="frame" x="34" y="433" width="180" height="28"/>
                                 </variation>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="viy-fl-6c2">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="New Game">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="265" y="395" width="98" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="touchNewGameButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="AdQ-UP-Whx"/>
+                                </connections>
+                            </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hUb-iG-puf">
+                                <rect key="frame" x="-61" y="-14" width="123" height="29"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <segments>
+                                    <segment title="2 Card Mode"/>
+                                    <segment title="3 Card Mode"/>
+                                </segments>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="34" y="395" width="223" height="29"/>
+                                </variation>
+                                <connections>
+                                    <action selector="changeGameMode:" destination="vXZ-lx-hvc" eventType="valueChanged" id="Zch-cy-CIS"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                         <variation key="default">
@@ -209,6 +241,8 @@
                                 <exclude reference="geY-vD-bAn"/>
                                 <exclude reference="3yR-c5-1bH"/>
                                 <exclude reference="rTH-ZA-Y1F"/>
+                                <exclude reference="viy-fl-6c2"/>
+                                <exclude reference="hUb-iG-puf"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -225,10 +259,13 @@
                                 <include reference="geY-vD-bAn"/>
                                 <include reference="3yR-c5-1bH"/>
                                 <include reference="rTH-ZA-Y1F"/>
+                                <include reference="viy-fl-6c2"/>
+                                <include reference="hUb-iG-puf"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="gameModeSegmentedControl" destination="hUb-iG-puf" id="jIb-7g-x3R"/>
                         <outlet property="scoreLabel" destination="rTH-ZA-Y1F" id="IXi-r8-2W7"/>
                         <outletCollection property="cardButtons" destination="CyL-pZ-vX3" id="0sa-7T-L4t"/>
                         <outletCollection property="cardButtons" destination="3yR-c5-1bH" id="ioW-eO-cqJ"/>

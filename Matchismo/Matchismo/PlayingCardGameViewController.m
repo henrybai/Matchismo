@@ -10,6 +10,7 @@
 #import "PlayingCardDeck.h"
 
 @interface PlayingCardGameViewController ()
+@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
 
 @end
 
@@ -18,6 +19,14 @@
 
 - (Deck *) createDeck {
 	return [[PlayingCardDeck alloc] init];
+}
+- (IBAction)changeGameMode:(UISegmentedControl *)sender {
+	if (self.gameModeSegmentedControl.selectedSegmentIndex == 0) {
+		self.game.numberOfCardToMatch = 2;
+	} else {
+		self.game.numberOfCardToMatch = 3;
+	}
+	
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

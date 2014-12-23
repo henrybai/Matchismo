@@ -10,6 +10,7 @@
 
 @interface CardMatchingGame()
 @property (nonatomic, readwrite) NSInteger score;
+@property (nonatomic, readwrite) BOOL gameStarted;
 @property (nonatomic, strong) NSMutableArray *cards; //of Cards
 @end
 
@@ -22,9 +23,17 @@
 	return _cards;
 }
 
+- (NSUInteger) numberOfCardToMatch {
+	if (_numberOfCardToMatch < 2) {
+		_numberOfCardToMatch = 2;
+	}
+	return _numberOfCardToMatch;
+}
+
 - (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck {
 	self = [super init]; //super designated initializer
 	if (self) {
+		self.gameStarted = NO;
 		for (int i = 0; i<count; i++) {
 			Card *card = [deck drawRandomCard];
 			if (card) {
@@ -48,7 +57,7 @@ static const int COST_TO_CHOOSE = 1;
 
 - (void)chooseCardAtIndex:(NSUInteger)index {
 	Card *card = [self cardAtIndex:index];
-	
+	self.gameStarted = YES;
 	if (!card.isMatched) {
 		if (card.isChosen) {
 			card.chosen = NO;
