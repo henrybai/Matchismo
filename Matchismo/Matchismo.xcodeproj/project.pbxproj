@@ -33,7 +33,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BAD4F22E1A3E179C00BA1324 /* Matchismo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Matchismo.app; path = "/Users/Henry/Developer/Matchismo/Matchismo/build/Debug-iphoneos/Matchismo.app"; sourceTree = "<absolute>"; };
+		BA4A25FB1A48F69F003AB291 /* Matchismo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Matchismo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA4A25FC1A48F69F003AB291 /* MatchismoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MatchismoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAD4F2321A3E179C00BA1324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAD4F2331A3E179C00BA1324 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BAD4F2351A3E179C00BA1324 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -57,7 +58,6 @@
 		BAD4F26A1A3E358C00BA1324 /* CardMatchingGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CardMatchingGame.m; path = Model/CardMatchingGame.m; sourceTree = "<group>"; };
 		BAD4F26C1A41A7AB00BA1324 /* PlayingCardGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingCardGameViewController.h; sourceTree = "<group>"; };
 		BAD4F26D1A41A7AB00BA1324 /* PlayingCardGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingCardGameViewController.m; sourceTree = "<group>"; };
-		BAD4F2701A48F05600BA1324 /* MatchismoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MatchismoTests.xctest; path = "/Users/Henry/Developer/Matchismo/Matchismo/build/Debug-iphoneos/MatchismoTests.xctest"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +83,8 @@
 			children = (
 				BAD4F2301A3E179C00BA1324 /* Matchismo */,
 				BAD4F24A1A3E179C00BA1324 /* MatchismoTests */,
-				BAD4F2711A48F0A700BA1324 /* Products */,
+				BA4A25FB1A48F69F003AB291 /* Matchismo.app */,
+				BA4A25FC1A48F69F003AB291 /* MatchismoTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,13 +149,6 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		BAD4F2711A48F0A700BA1324 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -172,7 +166,7 @@
 			);
 			name = Matchismo;
 			productName = MatchingStanford;
-			productReference = BAD4F22E1A3E179C00BA1324 /* Matchismo.app */;
+			productReference = BA4A25FB1A48F69F003AB291 /* Matchismo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		BAD4F2461A3E179C00BA1324 /* MatchismoTests */ = {
@@ -190,7 +184,7 @@
 			);
 			name = MatchismoTests;
 			productName = MatchingStanfordTests;
-			productReference = BAD4F2701A48F05600BA1324 /* MatchismoTests.xctest */;
+			productReference = BA4A25FC1A48F69F003AB291 /* MatchismoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
