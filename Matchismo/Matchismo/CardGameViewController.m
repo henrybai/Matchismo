@@ -20,6 +20,7 @@
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
+@property (weak, nonatomic) IBOutlet UILabel *lastStatusLabel;
 @end
 
 @implementation CardGameViewController
@@ -99,6 +100,27 @@
 	}
 	self.scoreLabel.text = [NSString stringWithFormat:@"Score : %ld", (long)self.game.score];
 	self.gameModeSegmentedControl.enabled = self.game.gameStarted ? NO : YES;
+	//Update Status
+	NSString *chosenCardString = @"";
+	if (self.game && self.game.gameStarted && self.game.lastChosenCards) {
+		NSMutableArray *chosenCardsArray = [[NSMutableArray alloc] init];
+		for (Card *card in self.game.lastChosenCards) {
+			[chosenCardsArray addObject:card.contents];
+		}
+		chosenCardString = [chosenCardsArray componentsJoinedByString:@" "];
+		if (self.game.lastScore > 0) {
+			self.lastStatusLabel.text = [NSString stringWithFormat:@"Matched %@ for %ld points", chosenCardString, (long)self.game.lastScore];
+		} else if (self.game.lastScore < 0) {
+			self.lastStatusLabel.text = [NSString stringWithFormat:@"%@ don’t match! %ld point penalty!", chosenCardString, 0 - (long)self.game.lastScore];
+		} else {
+			self.lastStatusLabel.text = [NSString stringWithFormat:@"%@", chosenCardString];
+		}
+		
+	} else {
+		self.lastStatusLabel.text = @"";
+	}
+	
+
 }
 
 - (NSString *)titleForCard:(Card *)card {
@@ -113,6 +135,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+	self.lastStatusLabel.text = @"";
 }
 
 - (void)didReceiveMemoryWarning {

@@ -21,6 +21,6 @@
 
 @property (nonatomic, readonly) BOOL gameStarted;
 @property (nonatomic) NSUInteger numberOfCardToMatch;
-
-
+@property (nonatomic, readonly) NSInteger lastScore;
+@property (nonatomic, strong, readonly) NSArray *lastChosenCards;
 @end

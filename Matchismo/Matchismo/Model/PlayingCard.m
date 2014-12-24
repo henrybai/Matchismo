@@ -44,16 +44,21 @@
 
 - (int) match:(NSArray *)otherCards {
 	int score = 0;
-	if ([otherCards count] == 1) {
-		id card = [otherCards firstObject];
-		if ([card isKindOfClass:[PlayingCard class]]) {
-			PlayingCard *otherCard = (PlayingCard *)card;
-			if (otherCard.rank == self.rank) {
-				score = 4;
-			} else if ([otherCard.suit isEqualToString:self.suit]) {
-				score = 1;
+	NSUInteger numberOfOtherCards = otherCards.count;
+	if (numberOfOtherCards) {
+		for (Card *card in otherCards) {
+			if ([card isKindOfClass:[PlayingCard class]]) {
+				PlayingCard *otherCard = (PlayingCard *)card;
+				if (otherCard.rank == self.rank) {
+					score += 4;
+				} else if ([otherCard.suit isEqualToString:self.suit]) {
+					score += 1;
+				}
 			}
 		}
+	}
+	if (numberOfOtherCards > 1) {
+		score += [otherCards[0] match:[otherCards subarrayWithRange:NSMakeRange(1, numberOfOtherCards-1)]];
 	}
 	return score;
 }
