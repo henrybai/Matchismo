@@ -66,6 +66,10 @@ static const int COST_TO_CHOOSE = 1;
 	if (!card.isMatched) {
 		if (card.isChosen) {
 			card.chosen = NO;  //close card
+			NSMutableArray *currentChosenCards = [self.lastChosenCards mutableCopy];
+			[currentChosenCards removeObject:card];
+			self.lastChosenCards = [currentChosenCards copy];
+			
 		} else {
 			NSMutableArray *otherCards = [[NSMutableArray alloc] init];
 			//match against other cards

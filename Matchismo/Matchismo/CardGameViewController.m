@@ -114,15 +114,19 @@
 	//Update Status
 	NSString *lastStatus = @"";
 	if (self.game && self.game.gameStarted && self.game.lastChosenCards) {
-		NSMutableArray *chosenCardsArray = [[NSMutableArray alloc] init];
-		for (Card *card in self.game.lastChosenCards) {
-			[chosenCardsArray addObject:card.contents];
-		}
-		lastStatus = [chosenCardsArray componentsJoinedByString:@" "];
-		if (self.game.lastScore > 0) {
-			lastStatus = [NSString stringWithFormat:@"Matched %@ for %ld points", lastStatus, (long)self.game.lastScore];
-		} else if (self.game.lastScore < 0) {
-			lastStatus = [NSString stringWithFormat:@"%@ don’t match! %ld point penalty!", lastStatus, 0 - (long)self.game.lastScore];
+		if (self.game.lastChosenCards.count > 0) {
+			NSMutableArray *chosenCardsArray = [[NSMutableArray alloc] init];
+			for (Card *card in self.game.lastChosenCards) {
+				[chosenCardsArray addObject:card.contents];
+			}
+			lastStatus = [chosenCardsArray componentsJoinedByString:@" "];
+			if (self.game.lastScore > 0) {
+				lastStatus = [NSString stringWithFormat:@"Matched %@ for %ld points", lastStatus, (long)self.game.lastScore];
+			} else if (self.game.lastScore < 0) {
+				lastStatus = [NSString stringWithFormat:@"%@ don’t match! %ld point penalty!", lastStatus, 0 - (long)self.game.lastScore];
+			}
+		} else {
+			lastStatus = @"Ready";
 		}
 		
 	} else {
