@@ -8,7 +8,7 @@
 
 #import "CardGameViewController.h"
 #import "CardMatchingGame.h"
-#import "PlayingCardDeck.h"
+
 
 @interface CardGameViewController ()
 /*
@@ -46,7 +46,7 @@
 }
 
 - (Deck *)createDeck {
-	return [[PlayingCardDeck alloc] init];
+	return nil;
 }
 
 

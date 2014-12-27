@@ -2,7 +2,7 @@
 //  PlayingCardGameViewController.m
 //  Matchismo
 //
-//  Created by Henry on 17/12/14.
+//  Created by Henry on 27/12/14.
 //  Copyright (c) 2014 Henry. All rights reserved.
 //
 
@@ -10,24 +10,16 @@
 #import "PlayingCardDeck.h"
 
 @interface PlayingCardGameViewController ()
-@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
 
 @end
 
 @implementation PlayingCardGameViewController
 
 
-- (Deck *) createDeck {
+- (Deck *)createDeck {
 	return [[PlayingCardDeck alloc] init];
 }
-- (IBAction)changeGameMode:(UISegmentedControl *)sender {
-	if (self.gameModeSegmentedControl.selectedSegmentIndex == 0) {
-		self.game.numberOfCardToMatch = 2;
-	} else {
-		self.game.numberOfCardToMatch = 3;
-	}
-	
-}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
