@@ -8,7 +8,7 @@
 
 #import "CardGameViewController.h"
 #import "CardMatchingGame.h"
-
+#import "HistoryViewController.h"
 
 @interface CardGameViewController ()
 /*
@@ -29,6 +29,8 @@
 
 @implementation CardGameViewController
 
+#pragma mark - Setters and Getters 
+
 - (CardMatchingGame *)game{
 	if (!_game) {
 		_game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
@@ -40,6 +42,7 @@
 	return _game;
 }
 
+
 - (NSMutableArray *)gameHistory {
 	if (!_gameHistory) {
 		_gameHistory = [[NSMutableArray alloc] init];
@@ -47,9 +50,11 @@
 	return _gameHistory;
 }
 
+#pragma mark - Abstract Methods
 - (Deck *)createDeck {
 	return nil;
 }
+
 - (NSUInteger)numberOfCardsToMatch {
 	return 0;
 }
@@ -79,6 +84,8 @@
 	NSLog(@"flipCount = %d", self.flipCount);
 }
  */
+
+#pragma mark - Actions
 - (IBAction)touchCardButton:(UIButton *)sender {
 	NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
 	[self.game chooseCardAtIndex:chosenButtonIndex];
@@ -106,6 +113,8 @@
 	[self updateUI];
 }
 
+
+#pragma mark - UI Related
 - (void)updateUI {
 	for (UIButton *cardButton in self.cardButtons) {
 		NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
@@ -163,15 +172,12 @@
 	//self.lastStatusLabel.text = self.gameHistory[sliderValue];
 }
 */
-- (NSString *)titleForCard:(Card *)card {
-	return card.isChosen ? card.contents : @"";
-}
 - (NSAttributedString *)cardFaceTitleForCard:(Card *)card {
-	return [[NSAttributedString alloc] initWithString:[self titleForCard:card]];
+	return  card.isChosen ? [[NSAttributedString alloc] initWithString:card.contents] : [[NSAttributedString alloc] initWithString:@""] ;
 }
 
 - (NSAttributedString *)attributedTitleForCard:(Card *)card {
-	return [[NSAttributedString alloc] initWithString:[self titleForCard:card]];
+	return [[NSAttributedString alloc] initWithString:card.contents];
 }
 
 
@@ -180,7 +186,17 @@
 }
 
 
+#pragma mark - Callbacks
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	UIViewController *historyVC = [segue destinationViewController];
+	if ([historyVC isKindOfClass:[HistoryViewController class]]) {
+		HistoryViewController *historyViewController = (HistoryViewController *) historyVC;
+		historyViewController.history = self.gameHistory;
+	}
+	// Get the new view controller using [segue destinationViewController].
+	// Pass the selected object to the new view controller.
+}
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
