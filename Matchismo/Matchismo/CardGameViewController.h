@@ -15,6 +15,7 @@
 
 
 - (Deck *)createDeck; //abstract
-
+- (NSUInteger)numberOfCardsToMatch; //abstract
+- (NSAttributedString *)cardFaceTitleForCard:(Card *)card;
+- (NSAttributedString *)attributedTitleForCard:(Card *)card;
 @end
-

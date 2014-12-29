@@ -20,6 +20,12 @@
 	return [[PlayingCardDeck alloc] init];
 }
 
+
+
+- (NSUInteger)numberOfCardsToMatch {
+	return 2;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

@@ -22,17 +22,19 @@
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UILabel *lastStatusLabel;
-@property (weak, nonatomic) IBOutlet UISlider *gameHistorySlider;
+//@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
+//@property (weak, nonatomic) IBOutlet UISlider *gameHistorySlider;
 @end
 
 @implementation CardGameViewController
 
 - (CardMatchingGame *)game{
 	if (!_game) {
-		_game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
-		[self changeGameMode:self.gameModeSegmentedControl];
+		_game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
+												  usingDeck:[self createDeck]
+									  matchingNumberOfCards:[self numberOfCardsToMatch]];
+//		[self changeGameMode:self.gameModeSegmentedControl];
 		self.gameHistory = nil;
 	}
 	return _game;
@@ -48,8 +50,11 @@
 - (Deck *)createDeck {
 	return nil;
 }
+- (NSUInteger)numberOfCardsToMatch {
+	return 0;
+}
 
-
+/*
 - (IBAction)changeGameMode:(UISegmentedControl *)sender {
 	if (self.gameModeSegmentedControl.selectedSegmentIndex == 0) {
 		self.game.numberOfCardToMatch = 2;
@@ -58,7 +63,7 @@
 	}
 	
 }
-
+*/
 
 /*
 - (Deck *)deck {
@@ -105,64 +110,84 @@
 	for (UIButton *cardButton in self.cardButtons) {
 		NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
 		Card *card = [self.game cardAtIndex:cardButtonIndex];
-		[cardButton setTitle:[self titleForCard:card] forState:UIControlStateNormal];
+		[cardButton setAttributedTitle:[self cardFaceTitleForCard:card] forState:UIControlStateNormal];
 		[cardButton setBackgroundImage:[self imageForCard:card] forState:UIControlStateNormal];
 		cardButton.enabled = !card.isMatched;
 	}
 	self.scoreLabel.text = [NSString stringWithFormat:@"Score : %ld", (long)self.game.score];
-	self.gameModeSegmentedControl.enabled = self.game.gameStarted ? NO : YES;
+//	self.gameModeSegmentedControl.enabled = self.game.gameStarted ? NO : YES;
 	//Update Status
-	NSString *lastStatus = @"";
-	if (self.game && self.game.gameStarted && self.game.lastChosenCards) {
-		if (self.game.lastChosenCards.count > 0) {
-			NSMutableArray *chosenCardsArray = [[NSMutableArray alloc] init];
-			for (Card *card in self.game.lastChosenCards) {
-				[chosenCardsArray addObject:card.contents];
-			}
-			lastStatus = [chosenCardsArray componentsJoinedByString:@" "];
-			if (self.game.lastScore > 0) {
-				lastStatus = [NSString stringWithFormat:@"Matched %@ for %ld points", lastStatus, (long)self.game.lastScore];
-			} else if (self.game.lastScore < 0) {
-				lastStatus = [NSString stringWithFormat:@"%@ don’t match! %ld point penalty!", lastStatus, 0 - (long)self.game.lastScore];
-			}
-		} else {
-			lastStatus = @"Ready";
-		}
-		
-	} else {
-		lastStatus= @"";
-	}
-	if (lastStatus.length && ![lastStatus isEqualToString:[self.gameHistory lastObject]]) {
+	NSAttributedString* lastStatus = [self lastStatusForChosenCards:self.game.lastChosenCards withScore:self.game.lastScore];
+	
+	if (lastStatus.length && ![lastStatus isEqualToAttributedString:[self.gameHistory lastObject]]) {
 		[self.gameHistory addObject:lastStatus];
-		self.gameHistorySlider.maximumValue = self.gameHistory.count - 1;
-		[self.gameHistorySlider setValue:self.gameHistorySlider.maximumValue animated:YES];
+	//	self.gameHistorySlider.maximumValue = self.gameHistory.count - 1;
+	//	[self.gameHistorySlider setValue:self.gameHistorySlider.maximumValue animated:YES];
 
 	}
 	self.lastStatusLabel.alpha = 1;
-	self.lastStatusLabel.text  = lastStatus;
+	self.lastStatusLabel.attributedText = lastStatus;
 }
 
+-(NSAttributedString *)lastStatusForChosenCards:(NSArray *)lastChosenCards withScore:(NSInteger)lastScore {
+	NSMutableAttributedString *cardsAttributedString = [[NSMutableAttributedString alloc] init];
+	if (lastChosenCards) {
+		if (lastChosenCards.count > 0) {
+
+			for (int i = 0; i<lastChosenCards.count; i++) {
+				Card *card = lastChosenCards[i];
+				[cardsAttributedString appendAttributedString:[self attributedTitleForCard:card]];
+				if (i != lastChosenCards.count -1) {
+					[cardsAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+				}
+			}
+			if (lastScore > 0) {
+				[cardsAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" matched for %ld points", (long)lastScore]]];
+			} else if (lastScore < 0) {
+				[cardsAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" don't match! %ld points penalty!", 0 - (long)lastScore]]];
+			}
+		} else {
+			cardsAttributedString = [[NSMutableAttributedString alloc] initWithString:@"Ready"];
+		}
+		
+	} else {
+		cardsAttributedString = [[NSMutableAttributedString alloc] initWithString:@""];
+	}
+	return [cardsAttributedString copy];
+}
+/*
 - (IBAction)slideGameHistorySlider:(UISlider *)sender {
 	int sliderValue = (int)lroundf(sender.value);
 	[self.gameHistorySlider setValue:sliderValue animated:NO];
 	self.lastStatusLabel.alpha =  (sliderValue == (int)self.gameHistorySlider.maximumValue ) ? 1 : 0.5;
-	self.lastStatusLabel.text = self.gameHistory[sliderValue];
+	//self.lastStatusLabel.text = self.gameHistory[sliderValue];
 }
-
+*/
 - (NSString *)titleForCard:(Card *)card {
 	return card.isChosen ? card.contents : @"";
 }
+- (NSAttributedString *)cardFaceTitleForCard:(Card *)card {
+	return [[NSAttributedString alloc] initWithString:[self titleForCard:card]];
+}
+
+- (NSAttributedString *)attributedTitleForCard:(Card *)card {
+	return [[NSAttributedString alloc] initWithString:[self titleForCard:card]];
+}
+
 
 - (UIImage *)imageForCard:(Card *)card {
 	return card.isChosen ? [UIImage imageNamed:@"cardfront"] : [UIImage imageNamed:@"cardback"];
 }
 
 
+
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-	self.lastStatusLabel.text = @"";
-	self.gameHistorySlider.maximumValue = self.gameHistory.count;
+//	self.lastStatusLabel.text = @"";
+//	self.gameHistorySlider.maximumValue = self.gameHistory.count;
+	[self updateUI];
 }
 
 - (void)didReceiveMemoryWarning {

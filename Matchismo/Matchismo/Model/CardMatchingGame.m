@@ -25,19 +25,27 @@
 	return _cards;
 }
 
-- (NSUInteger) numberOfCardToMatch {
-	if (_numberOfCardToMatch < 2) {
+- (void) setNumberOfCardToMatch:(NSUInteger)num {
+	if (num < 2) {
 		_numberOfCardToMatch = 2;
+	} else {
+		_numberOfCardToMatch = num;
 	}
-	return _numberOfCardToMatch;
+	
 }
 
-- (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck {
+- (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck
+{
+	return [self initWithCardCount:count usingDeck:deck matchingNumberOfCards:2];
+}
+
+- (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck matchingNumberOfCards:(NSUInteger)num{
 	self = [super init]; //super designated initializer
 	if (self) {
 		self.gameStarted = NO;
 		self.lastChosenCards = nil;
 		self.lastScore = 0;
+		self.numberOfCardToMatch = num;
 		for (int i = 0; i<count; i++) {
 			Card *card = [deck drawRandomCard];
 			if (card) {
